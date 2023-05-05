@@ -27,8 +27,8 @@ const boss = {
 let money = 0
 let bossesDefeated = 0
 
-function lvlUpBoss(){
-    if (boss.health == 0){
+function lvlUpBoss() {
+    if (boss.health == 0) {
         boss.maxHealth += 50
         boss.health = boss.maxHealth
         console.log(boss.health, boss.maxHealth)
@@ -40,59 +40,62 @@ function lvlUpBoss(){
             h.gold += boss.goldValue
         });
     }
-    document.getElementById('bosses-defeated').innerText = bossesDefeated
+    document.getElementById('bosses-defeated').innerText = bossesDefeated;
     drawBossHealth()
     drawHeroGold()
 }
 
 
-function attackBoss(){
-    let = totalDmg = 0
+function attackBoss() {
+    let totalDmg = 0
     heroes.forEach(h => totalDmg += h.damage)
     boss.health -= totalDmg
-    if(boss.health <= 0){
+    if (boss.health <= 0) {
         boss.health = 0
         lvlUpBoss()
     }
     drawBossHealth()
+    drawHeroDamage()
 }
 
-function attackHeroes(){
+function attackHeroes() {
     heroes.forEach(h => {
-        h.health -= boss.damage
+        h.health -= boss.damage;
+        h.damage += 3
     })
     heroes.forEach(h => {
-        if (h.health <= 0){
+        if (h.health <= 0) {
             h.health = 0
         }
     })
     drawHeroHealth()
 }
 
-function drawBossHealth(){
+function drawBossHealth() {
     document.getElementById('boss-health').innerText = boss.health
     document.getElementById('boss-maxHealth').innerText = boss.maxHealth
+    document.getElementById('boss-damage').innerText = boss.damage
 }
 
-function drawHeroHealth(){
+function drawHeroHealth() {
     heroes.forEach(h => {
         document.getElementById(h.name).innerText = h.health
     })
 }
 
-function buyPotion(heroName){
+function buyPotion(heroName) {
     heroes.forEach(h => {
         h.name == heroName
-        if(h.gold < 20){
+        if (h.gold < 20) {
             window.alert("You don't have enough money!")
         }
-            else {
-        h.gold -= 20
-        h.health += 100
-        if (h.health > 100) {
-            h.health = 100
-        }
+        else {
+            h.gold -= 20
+            h.health += 100
+            if (h.health > 100) {
+                h.health = 100
             }
+        }
     });
     drawHeroHealth()
     drawHeroGold()
@@ -103,20 +106,35 @@ function drawHeroGold() {
     document.getElementById('hero1gold').innerText = heroes[0].gold
     document.getElementById('hero2gold').innerText = heroes[1].gold
 }
-function resetButton(){
+function resetButton() {
+
     boss.health = 100;
     boss.maxHealth = 100;
+    heroes[0].damage = 5;
+    heroes[1].damage = 10;
     heroes.forEach(h => {
         h.health = 100;
         h.gold = 0;
+
     })
-    bossesDefeated = 0
+    bossesDefeated = 0;
     boss.goldValue = 20
     boss.damage = 5
     drawBossHealth()
     drawHeroGold()
     drawHeroHealth()
+    drawbossDefeat()
+    drawHeroDamage()
 
+}
+function drawHeroDamage() {
+
+    document.getElementById('dh0').innerText = heroes[0].damage;
+    document.getElementById('dh1').innerText = heroes[1].damage;
+
+}
+function drawbossDefeat() {
+    document.getElementById('bosses-defeated').innerText = bossesDefeated;
 }
 
 
